@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/metricstory-sdk.git"
+    "url": "git+https://github.com/randallkanna/metricstory-npm.git"
   },
   "keywords": [
     "analytics",
     "metricstory",
     "tracking"
   ],
-  "author": "Your Name <your.email@example.com>",
+  "author": "Randall",
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.23.9",
