@@ -1,10 +1,10 @@
 {
   "name": "metricstory",
-  "version": "1.0.0",
-  "description": "Module for integrating MetricStory analytics", 
-  "main": "src/index.js",
+  "version": "0.0.2",
+  "description": "Module for integrating MetricStory analytics",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "babel src -d dist",
+    "build": "babel src --out-dir dist --copy-files",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,7 +21,8 @@
   "devDependencies": {
     "@babel/cli": "^7.23.9",
     "@babel/core": "^7.23.9",
-    "@babel/preset-env": "^7.23.9"
+    "@babel/preset-env": "^7.23.9",
+    "@babel/preset-react": "^7.23.3"
   },
   "dependencies": {
     "uuid": "^9.0.1"
