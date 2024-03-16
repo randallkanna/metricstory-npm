@@ -25,7 +25,8 @@ class Storage {
 
 const ENDPOINTS = {
   IDENTIFY: 'identify',
-  INSIGHT: 'track'
+  INSIGHT: 'track',
+  PAGE: 'page'
 };
 
 export class MetricStory {
@@ -66,27 +67,27 @@ export class MetricStory {
     Storage.setItem('metricStoryUserId', userData);
   }
 
-  trackPageViewManually(url, referrer) {
-    url = url || window.location.pathname;
-    referrer = referrer || document.referrer;
+  // trackPageViewManually(url, referrer) {
+  //   url = url || window.location.pathname;
+  //   referrer = referrer || document.referrer;
 
-    this.track({ 
-      event: 'PAGE_VIEW', 
-      properties: {
-        domain: url,
-        referrer: referrer,
-        timestamp: new Date(),
-        url: window.location.href
-      }
-    });
-  }
+  //   this.track({ 
+  //     event: 'PAGE_VIEW', 
+  //     properties: {
+  //       domain: url,
+  //       referrer: referrer,
+  //       timestamp: new Date(),
+  //       url: window.location.href
+  //     }
+  //   });
+  // }
 
   trackPageLoad() {
     const pageUrl = window.location.pathname;
     const referrer = document.referrer;
 
-    this.track({ 
-      event: 'PAGE_LOAD', 
+    this.page({ 
+      page: pageUrl, 
       properties: {
         url: pageUrl,
         referrer: referrer
@@ -131,6 +132,40 @@ export class MetricStory {
         console.error('Error fetching data:', error);
         if (callback) callback(error, null);
       });
+  }
+
+  // trackPageLoad
+  page(params, callback) {
+    const data = {
+      ...params,
+      userId: this.userId,
+      token: this.token,
+      url: window.location.href,
+    };
+
+    const requestOptions = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.token}`
+      },
+      body: JSON.stringify(data)
+    };
+    
+    fetch(`${METRIC_STORY_BASE}${ENDPOINTS.PAGE}`, requestOptions)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          if (callback) callback(null, data);
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+          if (callback) callback(error, null);
+        });
   }
 
   track(params, callback) {
