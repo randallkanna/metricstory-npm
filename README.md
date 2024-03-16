@@ -50,8 +50,8 @@ metricStory.track({ event: "USER_SIGNED_UP", properties: { plan: "Pro" } });
 
 ### Automatic Page Load Tracking
 
-The SDK automatically tracks page loads when the `MetricStory` class is initialized. However, if you need to track page views manually (e.g., in single-page applications), you can use the `trackPageViewManually` method as shown below.
+The SDK automatically tracks page loads when the `MetricStory` class is first initialized. However, if you need to track page views manually (e.g., in single-page applications), you can use the `page` method as shown below.
 
 ```javascript
-metricStory.page("/custom/path", "http://referrer.site");
+metricStory.page({ page: '/home', properties: { plan: 'Free' } });
 ```

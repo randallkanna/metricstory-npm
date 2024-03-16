@@ -58,7 +58,8 @@ var Storage = /*#__PURE__*/function () {
 }();
 var ENDPOINTS = {
   IDENTIFY: 'identify',
-  INSIGHT: 'track'
+  INSIGHT: 'track',
+  PAGE: 'page'
 };
 var MetricStory = exports.MetricStory = /*#__PURE__*/function () {
   function MetricStory() {
@@ -104,28 +105,28 @@ var MetricStory = exports.MetricStory = /*#__PURE__*/function () {
       });
       Storage.setItem('metricStoryUserId', userData);
     }
-  }, {
-    key: "trackPageViewManually",
-    value: function trackPageViewManually(url, referrer) {
-      url = url || window.location.pathname;
-      referrer = referrer || document.referrer;
-      this.track({
-        event: 'PAGE_VIEW',
-        properties: {
-          domain: url,
-          referrer: referrer,
-          timestamp: new Date(),
-          url: window.location.href
-        }
-      });
-    }
+
+    // trackPageViewManually(url, referrer) {
+    //   url = url || window.location.pathname;
+    //   referrer = referrer || document.referrer;
+
+    //   this.track({ 
+    //     event: 'PAGE_VIEW', 
+    //     properties: {
+    //       domain: url,
+    //       referrer: referrer,
+    //       timestamp: new Date(),
+    //       url: window.location.href
+    //     }
+    //   });
+    // }
   }, {
     key: "trackPageLoad",
     value: function trackPageLoad() {
       var pageUrl = window.location.pathname;
       var referrer = document.referrer;
-      this.track({
-        event: 'PAGE_LOAD',
+      this.page({
+        page: pageUrl,
         properties: {
           url: pageUrl,
           referrer: referrer
@@ -161,6 +162,36 @@ var MetricStory = exports.MetricStory = /*#__PURE__*/function () {
         return response.json();
       }).then(function (responseData) {
         if (callback) callback(null, responseData);
+      })["catch"](function (error) {
+        console.error('Error fetching data:', error);
+        if (callback) callback(error, null);
+      });
+    }
+
+    // trackPageLoad
+  }, {
+    key: "page",
+    value: function page(params, callback) {
+      var data = _objectSpread(_objectSpread({}, params), {}, {
+        userId: this.userId,
+        token: this.token,
+        url: window.location.href
+      });
+      var requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': "Bearer ".concat(this.token)
+        },
+        body: JSON.stringify(data)
+      };
+      fetch("".concat(METRIC_STORY_BASE).concat(ENDPOINTS.PAGE), requestOptions).then(function (response) {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      }).then(function (data) {
+        if (callback) callback(null, data);
       })["catch"](function (error) {
         console.error('Error fetching data:', error);
         if (callback) callback(error, null);
