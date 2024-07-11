@@ -3,22 +3,22 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.MetricStory = void 0;
-Object.defineProperty(exports, "MetricStoryProvider", {
+exports.Convertly = void 0;
+Object.defineProperty(exports, "ConvertlyProvider", {
   enumerable: true,
   get: function get() {
-    return _MetricStoryContext.MetricStoryProvider;
+    return _ConvertlyContext.ConvertlyProvider;
   }
 });
-exports.metricStory = void 0;
-Object.defineProperty(exports, "useMetricStory", {
+exports.convertly = void 0;
+Object.defineProperty(exports, "useConvertly", {
   enumerable: true,
   get: function get() {
-    return _MetricStoryContext.useMetricStory;
+    return _ConvertlyContext.useConvertly;
   }
 });
 var _uuid = require("uuid");
-var _MetricStoryContext = require("./MetricStoryContext");
+var _ConvertlyContext = require("./ConvertlyContext");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -28,8 +28,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-var METRIC_STORY_BASE = 'https://api.metricstory.ai/api/v1/';
-// const METRIC_STORY_BASE = 'http://localhost:8080/api/v1/';
+var CONVERTLY_BASE = 'https://api.tryconvertly.com/api/v1/';
+// const CONVERTLY_BASE = 'http://localhost:8080/api/v1/';
 var Storage = /*#__PURE__*/function () {
   function Storage() {
     _classCallCheck(this, Storage);
@@ -61,13 +61,13 @@ var ENDPOINTS = {
   INSIGHT: 'track',
   PAGE: 'page'
 };
-var MetricStory = exports.MetricStory = /*#__PURE__*/function () {
-  function MetricStory() {
-    _classCallCheck(this, MetricStory);
+var Convertly = exports.Convertly = /*#__PURE__*/function () {
+  function Convertly() {
+    _classCallCheck(this, Convertly);
     this.userId = null;
     this.isAnonymous = true;
   }
-  _createClass(MetricStory, [{
+  _createClass(Convertly, [{
     key: "init",
     value: function init(options) {
       this.token = options.token;
@@ -88,7 +88,7 @@ var MetricStory = exports.MetricStory = /*#__PURE__*/function () {
   }, {
     key: "getUserDataFromStorage",
     value: function getUserDataFromStorage() {
-      var userDataString = Storage.getItem('metricStoryUserId');
+      var userDataString = Storage.getItem('convertlyUserId');
       try {
         return JSON.parse(userDataString);
       } catch (error) {
@@ -103,7 +103,7 @@ var MetricStory = exports.MetricStory = /*#__PURE__*/function () {
         userId: userId,
         isAnonymous: isAnonymous
       });
-      Storage.setItem('metricStoryUserId', userData);
+      Storage.setItem('convertlyUserId', userData);
     }
 
     // trackPageViewManually(url, referrer) {
@@ -155,7 +155,7 @@ var MetricStory = exports.MetricStory = /*#__PURE__*/function () {
         },
         body: JSON.stringify(data)
       };
-      fetch("".concat(METRIC_STORY_BASE).concat(ENDPOINTS.IDENTIFY), requestOptions).then(function (response) {
+      fetch("".concat(CONVERTLY_BASE).concat(ENDPOINTS.IDENTIFY), requestOptions).then(function (response) {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -185,7 +185,7 @@ var MetricStory = exports.MetricStory = /*#__PURE__*/function () {
         },
         body: JSON.stringify(data)
       };
-      fetch("".concat(METRIC_STORY_BASE).concat(ENDPOINTS.PAGE), requestOptions).then(function (response) {
+      fetch("".concat(CONVERTLY_BASE).concat(ENDPOINTS.PAGE), requestOptions).then(function (response) {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -213,7 +213,7 @@ var MetricStory = exports.MetricStory = /*#__PURE__*/function () {
         },
         body: JSON.stringify(data)
       };
-      fetch("".concat(METRIC_STORY_BASE).concat(ENDPOINTS.INSIGHT), requestOptions).then(function (response) {
+      fetch("".concat(CONVERTLY_BASE).concat(ENDPOINTS.INSIGHT), requestOptions).then(function (response) {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -226,6 +226,6 @@ var MetricStory = exports.MetricStory = /*#__PURE__*/function () {
       });
     }
   }]);
-  return MetricStory;
+  return Convertly;
 }();
-var metricStory = exports.metricStory = new MetricStory();
+var convertly = exports.convertly = new Convertly();

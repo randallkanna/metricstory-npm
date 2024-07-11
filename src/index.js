@@ -1,8 +1,8 @@
 
 import { v4 as uuidv4 } from 'uuid';
 
-const METRIC_STORY_BASE = 'https://api.metricstory.ai/api/v1/';
-// const METRIC_STORY_BASE = 'http://localhost:8080/api/v1/';
+const CONVERTLY_BASE = 'https://api.tryconvertly.com/api/v1/';
+// const CONVERTLY_BASE = 'http://localhost:8080/api/v1/';
 
 class Storage {
   static getItem(key) {
@@ -29,7 +29,7 @@ const ENDPOINTS = {
   PAGE: 'page'
 };
 
-export class MetricStory {
+export class Convertly {
   constructor() {
     this.userId = null;
     this.isAnonymous = true;
@@ -53,7 +53,7 @@ export class MetricStory {
   }
   
   getUserDataFromStorage() {
-    const userDataString = Storage.getItem('metricStoryUserId');
+    const userDataString = Storage.getItem('convertlyUserId');
     try {
       return JSON.parse(userDataString);
     } catch (error) {
@@ -64,7 +64,7 @@ export class MetricStory {
 
   saveUserDataToStorage(userId, isAnonymous) {
     const userData = JSON.stringify({ userId, isAnonymous });
-    Storage.setItem('metricStoryUserId', userData);
+    Storage.setItem('convertlyUserId', userData);
   }
 
   // trackPageViewManually(url, referrer) {
@@ -118,7 +118,7 @@ export class MetricStory {
       body: JSON.stringify(data)
     };
     
-    fetch(`${METRIC_STORY_BASE}${ENDPOINTS.IDENTIFY}`, requestOptions)
+    fetch(`${CONVERTLY_BASE}${ENDPOINTS.IDENTIFY}`, requestOptions)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -152,7 +152,7 @@ export class MetricStory {
       body: JSON.stringify(data)
     };
     
-    fetch(`${METRIC_STORY_BASE}${ENDPOINTS.PAGE}`, requestOptions)
+    fetch(`${CONVERTLY_BASE}${ENDPOINTS.PAGE}`, requestOptions)
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -185,7 +185,7 @@ export class MetricStory {
       body: JSON.stringify(data)
     };
     
-    fetch(`${METRIC_STORY_BASE}${ENDPOINTS.INSIGHT}`, requestOptions)
+    fetch(`${CONVERTLY_BASE}${ENDPOINTS.INSIGHT}`, requestOptions)
         .then(response => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -202,7 +202,7 @@ export class MetricStory {
   }
 }
 
-export { MetricStoryProvider, useMetricStory } from './MetricStoryContext';
+export { ConvertlyProvider, useConvertly } from './ConvertlyContext';
 
-export const metricStory = new MetricStory();
+export const convertly = new Convertly();
 

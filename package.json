@@ -1,7 +1,7 @@
 {
-  "name": "metricstory",
+  "name": "convertly",
   "version": "0.0.4",
-  "description": "Module for integrating MetricStory analytics",
+  "description": "Module for integrating Convertly analytics",
   "main": "dist/index.js",
   "scripts": {
     "build": "babel src --out-dir dist --copy-files",

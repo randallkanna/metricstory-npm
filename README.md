@@ -1,31 +1,31 @@
-# MetricStory
+# Convertly
 
-This provides a straightforward way to integrate MetricStory analytics into your web application.
+This provides a straightforward way to integrate Convertly analytics into your web application.
 
 ## Usage
 
-Before using the SDK, ensure you have generated an API token from MetricStory.ai. This token is required for authorizing requests to MetricStory's API.
+Before using the SDK, ensure you have generated an API token from tryConvertly.com. This token is required for authorizing requests to Convertly's API.
 
-For added security, you can add a domain in MetricStory.ai as well
+For added security, you can add a domain in tryConvertly.com as well
 
-### Initializing MetricStory
+### Initializing Convertly
 
 Install the module
 
 ```
-npm install metricstory
+npm install convertly
 ```
 
-Import the `MetricStory` provider and initialize it with your API token.
+Import the `Convertly` provider and initialize it with your API token.
 
 ```javascript
-import { MetricStoryProvider } from 'metricstory';
+import { ConvertlyProvider } from 'convertly';
 
 export default function App() {
   return (
-      <MetricStoryProvider apiKey='key-XXXXX'>
+      <ConvertlyProvider apiKey='key-XXXXX'>
           <BrowserRouter />
-      </MetricStoryProvider>
+      </ConvertlyProvider>
   )
 } 
 ```
@@ -35,7 +35,7 @@ export default function App() {
 To associate events and page views with a user, call the `identify` method. This makes it easier to track user actions across your application.
 
 ```javascript
-metricStory.identify({ userId: "user's unique ID", first_name: "First Name", last_name: "Last Name" });
+convertly.identify({ userId: "user's unique ID", first_name: "First Name", last_name: "Last Name" });
 ```
 
 It's a good practice to call this method right after a user logs in or when the user information is updated.
@@ -45,13 +45,13 @@ It's a good practice to call this method right after a user logs in or when the 
 You can track custom events using the `track` method. This is useful for understanding the actions users are taking in your web application.
 
 ```javascript
-metricStory.track({ event: "USER_SIGNED_UP", properties: { plan: "Pro" } });
+convertly.track({ event: "USER_SIGNED_UP", properties: { plan: "Pro" } });
 ```
 
 ### Automatic Page Load Tracking
 
-The SDK automatically tracks page loads when the `MetricStory` class is first initialized. However, if you need to track page views manually (e.g., in single-page applications), you can use the `page` method as shown below.
+The SDK automatically tracks page loads when the `Convertly` class is first initialized. However, if you need to track page views manually (e.g., in single-page applications), you can use the `page` method as shown below.
 
 ```javascript
-metricStory.page({ page: '/home', properties: { plan: 'Free' } });
+convertly.page({ page: '/home', properties: { plan: 'Free' } });
 ```
